@@ -1,0 +1,15 @@
+{
+  "fitbit": {
+    "appUUID": "354a46d5-6c1a-447e-9f92-786f0af74cfb",
+    "appType": "clockface",
+    "appDisplayName": "MINI Cooper Time",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "#607d8b",
+    "requestedPermissions": [],
+    "i18n": {
+      "en": {
+        "name": "MINI Cooper Time"
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+<svg>
+  <rect id="background" />
+  <line id="pinStripes" x1="10%" y1="0" x2="15%" y2="100%" />
+  <line id="pinStripes" x1="90%" y1="0" x2="85%" y2="100%" />
+  <line id="mainStripeL" x1="10%" y1="0" x2="15%" y2="100%" />
+  <line id="mainStripeR" x1="90%" y1="0" x2="85%" y2="100%" />
+  <text id="clockLabel" />
+  <image x="50%-60" y="75%" width="120" height="51" href="images/MiniLogo.png" />
+</svg>
