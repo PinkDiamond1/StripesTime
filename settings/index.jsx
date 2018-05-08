@@ -77,30 +77,54 @@ function mySettings(props) {
         <Text>
           Please don't hesitiate to contact me with questions or suggestions. This and all my other apps will always be free and Open Source. If you really like my app please considder buying me a coffee (or more likely electonic components that end up in my classroom). Thanks!
         </Text>
-        <Link source="https://rawgit.com/cmspooner/Flashlight-App-for-FitBit-Ionic/master/settings/email.html">
+        <Link source="https://rawgit.com/cmspooner/StripesTime/master/settings/email.html">
           <TextImageRow
             label="Email"
             sublabel="cmspooner@gmail.com"
-            icon="https://github.com/cmspooner/Flashlight-App-for-FitBit-Ionic/blob/master/resources/icons/settings/Email.png?raw=true"
+            icon="https://github.com/cmspooner/StripesTime/blob/master/resources/icons/settings/Email.png?raw=true"
           />
         </Link>
         <Link source="https://github.com/cmspooner">
           <TextImageRow
             label="Github"
             sublabel="https://github.com/cmspooner"
-            icon="https://github.com/cmspooner/Flashlight-App-for-FitBit-Ionic/blob/master/resources/icons/settings/Github.png?raw=true"
+            icon="https://github.com/cmspooner/StripesTime/blob/master/resources/icons/settings/Github.png?raw=true"
           />
         </Link>
         <Link source="https://paypal.me/CMSpooner">
           <TextImageRow
             label="PayPal"
             sublabel="cmspooner@gmail.com"
-            icon="https://github.com/cmspooner/Flashlight-App-for-FitBit-Ionic/blob/master/resources/icons/settings/Paypal.png?raw=true"
+            icon="https://github.com/cmspooner/StripesTime/blob/master/resources/icons/settings/Paypal.png?raw=true"
           />
         </Link>
       </Section>
       <Section
         title={<Text bold align="center">Build Version and Notes</Text>}>
+        <Text>
+          1.4.1:Added Bttery %
+        </Text>
+        <Text>
+          1.4: Tap to change stats in odo
+        </Text>
+        <Text>
+          1.3: Now with images for Speed and Odo
+        </Text>
+        <Text>
+          1.2.3: Changed how stripes toggels work
+        </Text>
+        <Text>
+          1.2.2: Pinstripes showing now?
+        </Text>
+        <Text>
+          1.2.1: Pinstripes thicker
+        </Text>
+        <Text>
+          1.2: Pinstripes thicker
+        </Text>
+        <Text>
+          1.1: Lots of little fixes icluding fs writing
+        </Text>
         <Text>
           1.0: First official release
         </Text>

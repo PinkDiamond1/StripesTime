@@ -1,9 +1,13 @@
 <svg>
   <rect id="background" />
-  <line id="pinStripeL" x1="10%" y1="-2" x2="15%" y2="102%" />
-  <line id="pinStripeR" x1="90%" y1="-2" x2="85%" y2="102%" />
-  <line id="mainStripeL" x1="10%" y1="-2" x2="15%" y2="102%" />
-  <line id="mainStripeR" x1="90%" y1="-2" x2="85%" y2="102%" />
+  <line id="pinStripeLL" x1="5%" y1="-2" x2="10%" y2="102%" stroke-width="6"/>
+  <line id="pinStripeLR" x1="15%" y1="-2" x2="20%" y2="102%" stroke-width="6"/>
+  <line id="mainStripeL" x1="10%" y1="-2" x2="15%" y2="102%" stroke-width="40"/>
+  
+  <line id="pinStripeRR" x1="85%" y1="-2" x2="80%" y2="102%" stroke-width="6"/>
+  <line id="pinStripeRL" x1="95%" y1="-2" x2="90%" y2="102%" stroke-width="6"/>
+  <line id="mainStripeR" x1="90%" y1="-2" x2="85%" y2="102%" stroke-width="40"/>
+  
   <text id="clockLabel" />
   <circle cx="50%" cy="80%" r="36%" fill="black" />
   <circle id="tach" cx="50%" cy="80%" r ="34%" fill="white" />
@@ -13,10 +17,14 @@
     <image id="hrNeedleImage" x="$-5" y="$-36" width="10" height="32" href="images/needle.png" load="sync"/>
   </g>
   
-  <line x1="46%" y1="87%" x2="54%" y2="87%" stroke-width="9%" fill="black" />
+  <g transform="translate(50%, 88%)">
+    <image x="$-14" y="$-14" width="28" height="28" href="images/speed.png" load="sync"/>
+  </g>
   <text id = "hrLabel" />
-  <line x1="36%" y1="96%" x2="64%" y2="96%" stroke-width="8%" fill="black" />
-  <text id = "stepsLabel" />
+  <g transform="translate(50%, 98%)">
+    <image x="$-49" y="$-14" width="98" height="28" href="images/odo.png" load="sync"/>
+  </g>
+  <text id = "statsLabel" />
   
   <g transform="translate(50%,80%)"transform="rotate(-110)" >
     <rect x="0%" y="-32%" width="1%" height="4%" fill="darkorange" />

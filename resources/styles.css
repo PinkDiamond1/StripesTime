@@ -5,6 +5,17 @@
   text-length: 32;
 }
 
+.background {
+  viewport-fill: black;
+}
+
+#clickbg {
+  width: 100%;
+  height: 100%;
+  fill: black;
+  opacity: 0
+}
+
 #clockLabel {
   font-size: 100;
   font-family: Tungsten-Medium;
@@ -21,24 +32,6 @@
   fill: deepskyblue;
 }
 
-#mainStripeL {
-  stroke-width: 30;
-  fill: silver;
-}
-#mainStripeR {
-  stroke-width: 30;
-  fill: silver;
-}
-
-#pinStripeL {
-  stroke-width: 36;
-  fill: black;
-}
-#pinStripeR {
-  stroke-width: 36;
-  fill: black;
-}
-
 #hrLabel {
   font-size: 26;
   font-family: Tungsten-Medium;
@@ -49,13 +42,13 @@
   fill: darkorange;
 }
 
-#stepsLabel {
+#statsLabel {
   font-size: 22;
   font-family: Tungsten-Medium;
   text-length: 32;
   text-anchor: middle;
   x: 50%;
-  y: 96%;
+  y: 98%;
   fill: darkorange;
 }
 

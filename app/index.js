@@ -2,15 +2,17 @@ import clock from "clock";
 import document from "document";
 
 import * as messaging from "messaging";
+import * as fs from "fs";
 
 import { preferences } from "user-settings";
 import { HeartRateSensor } from "heart-rate";
 import { today } from "user-activity";
 import { goals } from "user-activity";
 import { user } from "user-profile";
+import { units } from "user-settings";
 import { display } from "display";
 import { me } from "appbit";
-
+import { battery } from "power";
 
 import * as util from "./util";
 
@@ -23,12 +25,16 @@ clock.granularity = "minutes";
 const SETTINGS_TYPE = "cbor";
 const SETTINGS_FILE = "settings.cbor";
 
+let clickbackground = document.getElementById("clickbg");
+
 let background = document.getElementById("background");
 let clockLabel = document.getElementById("clockLabel");
 let mainStripeL = document.getElementById("mainStripeL");
-let pinStripeL = document.getElementById("pinStripeL");
+let pinStripeLL = document.getElementById("pinStripeLL");
+let pinStripeLR = document.getElementById("pinStripeLR");
 let mainStripeR = document.getElementById("mainStripeR");
-let pinStripeR = document.getElementById("pinStripeR");
+let pinStripeRL = document.getElementById("pinStripeRL");
+let pinStripeRR = document.getElementById("pinStripeRR");
 
 let tach = document.getElementById("tach");
 
@@ -37,10 +43,18 @@ let hrNeedle = document.getElementById("hrNeedle");
 
 let hrLabel = document.getElementById("hrLabel");
 //hrLabel.text = "193"
-let stepsLabel = document.getElementById("stepsLabel");
+let statsLabel = document.getElementById("statsLabel");
 //stepsLabel.text = "21,753 steps"
 
 let settings = loadSettings();
+
+var stats = ["steps", 
+            "distance",
+            "floors",
+            "active",
+            "cals",
+            "batt"]
+var stat = 0;
 
 // Message is received
 messaging.peerSocket.onmessage = evt => {
@@ -57,7 +71,7 @@ messaging.peerSocket.onmessage = evt => {
   }
   if (evt.data.key === "pinStripeColor" && evt.data.newValue) {
     settings.pinStripesColor = JSON.parse(evt.data.newValue);
-    console.log(`Setting Stripe color: ${settings.pinStripesColor}`);
+    console.log(`Setting Pin Stripe color: ${settings.pinStripesColor}`);
     setPinStripesColor();
   }
   if (evt.data.key === "stripesToggle" && evt.data.newValue) {
@@ -89,21 +103,32 @@ function setBgColor(){
 
 function setStripesColor(){
   if (settings.stripes){
+    mainStripeR.style.display = "inline";
     mainStripeR.style.fill = settings.stripesColor;
+    mainStripeL.style.display = "inline";
     mainStripeL.style.fill = settings.stripesColor;
   } else {
-    mainStripeR.style.fill = settings.bgColor;
-    mainStripeL.style.fill = settings.bgColor;
+    mainStripeR.style.display = "none";
+    mainStripeL.style.display = "none";
   }
 }
 
 function setPinStripesColor(){
   if (settings.pinStripes){
-    pinStripeR.style.fill = settings.pinStripesColor;
-    pinStripeL.style.fill = settings.pinStripesColor;
+    console.log("Setting Pin Stripes to: " + settings.pinStripesColor+"!!!")
+    pinStripeRL.style.display = "inline";
+    pinStripeRL.style.fill = settings.pinStripesColor;
+    pinStripeRR.style.display = "inline";
+    pinStripeRR.style.fill = settings.pinStripesColor;
+    pinStripeLL.style.display = "inline";
+    pinStripeLL.style.fill = settings.pinStripesColor;
+    pinStripeLR.style.display = "inline";
+    pinStripeLR.style.fill = settings.pinStripesColor;
   } else {
-    pinStripeR.style.fill = settings.bgColor;
-    pinStripeL.style.fill = settings.bgColor;
+    pinStripeRL.style.display = "none";
+    pinStripeRR.style.display = "none";
+    pinStripeLL.style.display = "none";
+    pinStripeLR.style.display = "none";
   }
 }
 
@@ -140,7 +165,7 @@ function loadSettings() {
   try {
     return fs.readFileSync(SETTINGS_FILE, SETTINGS_TYPE);
   } catch (ex) {
-    // Defaults
+    console.log("No File")
     return {
       bgColor : "deepskyblue",
       stripesColor : "silver",
@@ -148,7 +173,8 @@ function loadSettings() {
       stripes : true,
       pinStripes: true,
       clockColor : "black",
-      tachColor : "black"
+      tachColor : "white",
+      noFile : true
     }
   }
 }
@@ -156,6 +182,7 @@ function loadSettings() {
 function saveSettings() {
   console.log("Saving Settings");
   settings.noFile = false;
+  fs.writeFileSync(SETTINGS_FILE, settings, SETTINGS_TYPE);
 }
 
 function updateClock() {
@@ -185,22 +212,13 @@ function updateClock() {
 
 function updateClockData() {
   if (display.on){
-    hrm.start();
-    let data = {
-        heart: {
-          theHeartRate: hrm.heartRate ? hrm.heartRate : 0
-        },
-        step: {
-          steps: today.adjusted.steps ? today.adjusted.steps: 0
-        }
-      };
 
     //console.log("Data:");
     //console.log(data.heart.theHeartRate);
     //console.log(data.step.steps.toLocaleString());
     
-    
-    if (data.heart.theHeartRate == 0) {
+    let heartRate = hrm.heartRate ? hrm.heartRate : 0
+    if (heartRate == 0) {
       hrLabel.text = `--`;
       hrNeedle.groupTransform.rotate.angle = -110;
         
@@ -210,17 +228,48 @@ function updateClockData() {
       let max = 220 - parseInt(user.age);
       let degPerBpm = 192.5/(max-min);
       //console.log(degPerBpm);
-      let angle = ((data.heart.theHeartRate - user.restingHeartRate) * degPerBpm) - 82.5;
+      let angle = ((heartRate - user.restingHeartRate) * degPerBpm) - 82.5;
       //let angle = ((250 - user.restingHeartRate) * degPerBpm) - 82.5;
       //console.log(angle);
       hrNeedle.groupTransform.rotate.angle = angle ;
-      hrLabel.text = `${data.heart.theHeartRate}`;
+      hrLabel.text = `${heartRate}`;
     }
-    
-    stepsLabel.text = `${data.step.steps.toLocaleString()} steps`;
-    hrm.stop()
+        
+    switch (stats[stat]){
+      case "steps":
+        statsLabel.text = `${today.adjusted.steps ? today.adjusted.steps.toLocaleString(): 0} steps`;
+        break;
+      case "distance":
+        if (units.distance == "us")
+          statsLabel.text = `${today.adjusted.distance ? util.round2(today.adjusted.distance * 0.000621371) : 0 } miles`;
+        else
+          statsLabel.text = `${today.adjusted.distance ? util.round2(today.adjusted.distance * 0.001) : 0 } km`;
+        break;
+      case "floors":
+        statsLabel.text = `${today.adjusted.elevationGain ? today.adjusted.elevationGain : 0} floors`;
+        break;
+      case "active":
+        statsLabel.text = `${today.adjusted.activeMinutes ? today.adjusted.activeMinutes.toLocaleString() : 0} min`;
+        break;
+      case "cals":
+        statsLabel.text = `${today.adjusted.calories ? today.adjusted.calories.toLocaleString() : 0} cal`;
+        break;
+      case "batt":
+        statsLabel.text = `${battery.chargeLevel}%`;
+        break;
+    }    
   }
 }
+
+clickbackground.onclick = function(evt) {
+  console.log("Click " +  stat);
+  if (stat < stats.length-1)
+    stat++;
+  else
+    stat = 0;
+  console.log(stats[stat]);
+}
+
 
 setInterval(updateClockData, .1*1000);
 clock.ontick = () => updateClock();

@@ -9,3 +9,10 @@ export function zeroPad(i) {
   }
   return i;
 }
+
+export function round2(number){
+  var factor = Math.pow(10, 2);
+  var tempNumber = number * factor;
+  var roundedTempNumber = Math.round(tempNumber);
+  return roundedTempNumber / factor;
+}

@@ -21,24 +21,6 @@
   fill: deepskyblue;
 }
 
-#mainStripeL {
-  stroke-width: 40;
-  fill: silver;
-}
-#mainStripeR {
-  stroke-width: 40;
-  fill: silver;
-}
-
-#pinStripeL {
-  stroke-width: 46;
-  fill: black;
-}
-#pinStripeR {
-  stroke-width: 46;
-  fill: black;
-}
-
 #hrLabel {
   font-size: 26;
   font-family: Tungsten-Medium;
@@ -49,7 +31,7 @@
   fill: darkorange;
 }
 
-#stepsLabel {
+#statsLabel {
   font-size: 22;
   font-family: Tungsten-Medium;
   text-length: 32;
