@@ -2,13 +2,21 @@
   "fitbit": {
     "appUUID": "354a46d5-6c1a-447e-9f92-786f0af74cfb",
     "appType": "clockface",
-    "appDisplayName": "MINI Cooper Time",
+    "appDisplayName": "Stripes Time",
     "iconFile": "resources/icon.png",
     "wipeColor": "#607d8b",
-    "requestedPermissions": [],
+    "requestedPermissions": [
+      "access_activity",
+      "access_user_profile",
+      "access_heart_rate"
+    ],
+    "buildTargets": [
+      "higgs",
+      "meson"
+    ],
     "i18n": {
       "en": {
-        "name": "MINI Cooper Time"
+        "name": "Stripes Time"
       }
     }
   }

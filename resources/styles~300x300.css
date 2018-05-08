@@ -22,20 +22,20 @@
 }
 
 #mainStripeL {
-  stroke-width: 30;
+  stroke-width: 40;
   fill: silver;
 }
 #mainStripeR {
-  stroke-width: 30;
+  stroke-width: 40;
   fill: silver;
 }
 
 #pinStripeL {
-  stroke-width: 36;
+  stroke-width: 46;
   fill: black;
 }
 #pinStripeR {
-  stroke-width: 36;
+  stroke-width: 46;
   fill: black;
 }
 
@@ -45,7 +45,7 @@
   text-length: 32;
   text-anchor: middle;
   x: 50%;
-  y: 85%;
+  y: 91%;
   fill: darkorange;
 }
 
@@ -55,7 +55,7 @@
   text-length: 32;
   text-anchor: middle;
   x: 50%;
-  y: 96%;
+  y: 99%;
   fill: darkorange;
 }
 
