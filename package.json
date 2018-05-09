@@ -2,7 +2,7 @@
   "fitbit": {
     "appUUID": "69c58b1c-3e15-4438-9690-d06c9b8910f1",
     "appType": "clockface",
-    "appDisplayName": "Stripes Time",
+    "appDisplayName": "CooperTime",
     "iconFile": "resources/icon.png",
     "wipeColor": "",
     "requestedPermissions": [
@@ -16,7 +16,7 @@
     ],
     "i18n": {
       "en": {
-        "name": "Stripes Time"
+        "name": "CooperTime"
       }
     }
   }

@@ -102,6 +102,12 @@ function mySettings(props) {
       <Section
         title={<Text bold align="center">Build Version and Notes</Text>}>
         <Text>
+          1.7: Resize Versa Stuff!
+        </Text>
+        <Text>
+          1.6.5: Fixes on Versa
+        </Text>
+        <Text>
           1.6.4: Larger Fuel Guage!
         </Text>
         <Text>

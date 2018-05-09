@@ -209,6 +209,7 @@ function updateClock() {
   }
   
   clockLabel.text = `${hours}:${mins}`;
+  //clockLabel.text = `${12}:${59}`;
 }
 
 function updateClockData() {

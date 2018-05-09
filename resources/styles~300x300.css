@@ -5,9 +5,20 @@
   text-length: 32;
 }
 
+.background {
+  viewport-fill: black;
+}
+
+#clickbg {
+  width: 100%;
+  height: 100%;
+  fill: black;
+  opacity: 0
+}
+
 #clockLabel {
-  font-size: 100;
-  font-family: Tungsten-Medium;
+  font-size: 90;
+  font-family: Fabrikat-Bold;  
   text-length: 32;
   text-anchor: middle;
   x: 50%;
@@ -22,17 +33,17 @@
 }
 
 #hrLabel {
-  font-size: 26;
+  font-size: 30;
   font-family: Tungsten-Medium;
   text-length: 32;
   text-anchor: middle;
   x: 50%;
-  y: 91%;
+  y: 87%;
   fill: darkorange;
 }
 
 #statsLabel {
-  font-size: 22;
+  font-size: 29;
   font-family: Tungsten-Medium;
   text-length: 32;
   text-anchor: middle;
