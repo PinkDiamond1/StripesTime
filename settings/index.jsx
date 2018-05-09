@@ -102,7 +102,31 @@ function mySettings(props) {
       <Section
         title={<Text bold align="center">Build Version and Notes</Text>}>
         <Text>
-          1.4.1:Added Bttery %
+          1.6.4: Larger Fuel Guage!
+        </Text>
+        <Text>
+          1.6.3: Enbiggening!
+        </Text>
+        <Text>
+          1.6.2: Fuel Gage direction fixed
+        </Text>
+        <Text>
+          1.6.1: Fuel Gage for versa plus Batt in stats
+        </Text>
+        <Text>
+          1.6: Fuel Gage!
+        </Text>
+        <Text>
+          1.5.1: Fixed Red-Line
+        </Text>
+        <Text>
+          1.5: Added Red-Line
+        </Text>
+        <Text>
+          1.4.2: Cut update rate down
+        </Text>
+        <Text>
+          1.4.1: Added Bttery %
         </Text>
         <Text>
           1.4: Tap to change stats in odo

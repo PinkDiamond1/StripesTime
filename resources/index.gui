@@ -11,82 +11,133 @@
     <line id="mainStripeR" x1="90%" y1="-2" x2="85%" y2="102%" stroke-width="30"/>
 
     <text id="clockLabel" />
+    
+    <circle cx="81%" cy="91%" r="16%" fill="black" />
+    <circle id="fuel" cx="81%" cy="91%" r="14%" fill="white"/>
+    <circle cx="81%" cy="91%" r ="2%" fill="silver" />
+    <g id="flNeedle" transform="translate(81%, 91%)">
+      <image id="flNeedleImage" x="$-3" y="$-17" width="6" height="15" href="images/needle.png" load="sync"/>
+    </g>
+    
+    <g transform="translate(81%,91%)"transform="rotate(-10)" >
+      <rect x="0%" y="-13%" width="1%" height="5%" fill="darkorange" />
+    </g>
+    <g transform="translate(81%,91%)"transform="rotate(6.875)" >
+      <rect x="0%" y="-13%" width="2" height="3%" fill="darkorange" />
+    </g>
+    <g transform="translate(81%,91%)"transform="rotate(23.75)" >
+      <rect x="0%" y="-13%" width="2" height="3%" fill="darkorange" />
+    </g>
+    <g transform="translate(81%,91%)"transform="rotate(40.625)" >
+      <rect x="0%" y="-13%" width="2" height="3%" fill="darkorange" />
+    </g>
+    <g transform="translate(81%,91%)"transform="rotate(57.5)" >
+      <rect x="0%" y="-13%" width="1%" height="5%" fill="darkorange" />
+    </g>
+    <g transform="translate(81%,91%)"transform="rotate(74.375)" >
+      <rect x="0%" y="-13%" width="2" height="3%" fill="darkorange" />
+    </g>
+    <g transform="translate(81%,91%)"transform="rotate(91.25)" >
+      <rect x="0%" y="-13%" width="2" height="3%" fill="darkorange" />
+    </g>
+    <g transform="translate(81%,91%)"transform="rotate(108.125)" >
+      <rect x="0%" y="-13%" width="2" height="3%" fill="darkorange" />
+    </g>
+    <g transform="translate(81%,91%)"transform="rotate(125)" >
+      <rect x="0%" y="-13%" width="1%" height="5%" fill="darkorange" />
+    </g>
+    
+    
     <circle cx="50%" cy="75%" r="40%" fill="black" />
     <circle id="tach" cx="50%" cy="75%" r ="38%" fill="white" />
-
     <circle cx="50%" cy="68%" r ="5%" fill="silver" />
     <g id="hrNeedle" transform="translate(50%, 68%)">
-      <image id="hrNeedleImage" x="$-5" y="$-36" width="10" height="32" href="images/needle.png" load="sync"/>
+      <image id="hrNeedleImage" x="$-5" y="$-38" width="10" height="36" href="images/needle.png" load="sync"/>
     </g>
 
-    <g transform="translate(50%, 81%)">
-      <image x="$-14" y="$-16" width="28" height="32" href="images/speed.png" load="sync"/>
+    <g transform="translate(50%, 80%)">
+      <image x="$-18" y="$-17" width="36" height="34" href="images/speed.png" load="sync"/>
     </g>
     <text id = "hrLabel" />
     <g transform="translate(50%, 95%)">
-      <image x="$-49" y="$-13" width="98" height="26" href="images/odo.png" load="sync"/>
+      <image x="$-55" y="$-15" width="110" height="32" href="images/odo.png" load="sync"/>
     </g>
     <text id = "statsLabel" />
 
     <g transform="translate(50%,70%)"transform="rotate(-110)" >
-      <rect x="0%" y="-32%" width="1%" height="4%" fill="darkorange" />
-      <text x="0%" y="-18%"
+      <rect x="0%" y="-39%" width="1%" height="10%" fill="darkorange" />
+      <text x="1%" y="-18%"
           font-family="Tungsten-Medium" fill="darkorange"
           font-size="30" font-weight="bold"
           text-anchor="middle">0</text>
     </g>
     <g transform="translate(50%,70%)"transform="rotate(-82.5)" >
-      <rect x="0%" y="-32%" width="1%" height="4%" fill="darkorange" />
+      <rect x="0%" y="-37%" width="1%" height="8%" fill="darkorange" />
       <text x="0%" y="-18%"
           font-family="Tungsten-Medium" fill="darkorange"
           font-size="30" font-weight="bold"
           text-anchor="middle">1</text>
     </g>
     <g transform="translate(50%,70%)"transform="rotate(-55)" >
-      <rect x="0%" y="-32%" width="1%" height="4%" fill="darkorange" />
+      <rect x="0%" y="-35%" width="1%" height="6%" fill="darkorange" />
       <text x="0%" y="-18%"
           font-family="Tungsten-Medium" fill="darkorange"
           font-size="30" font-weight="bold"
           text-anchor="middle">2</text>
     </g>
     <g transform="translate(50%,70%)"transform="rotate(-27.5)" >
-      <rect x="0%" y="-32%" width="1%" height="4%" fill="darkorange" />
+      <rect x="0%" y="-34%" width="1%" height="5%" fill="darkorange" />
       <text x="0%" y="-18%"
           font-family="Tungsten-Medium" fill="darkorange"
           font-size="30" font-weight="bold"
           text-anchor="middle">3</text>
     </g>
     <g transform="translate(50%,70%)"transform="rotate(0)" >
-      <rect x="0%" y="-32%" width="1%" height="4%" fill="darkorange" />
+      <rect x="0%" y="-34%" width="1%" height="5%" fill="darkorange" />
       <text x="0%" y="-18%"
           font-family="Tungsten-Medium" fill="darkorange"
           font-size="31" font-weight="bold"
           text-anchor="middle">4</text>
     </g>
     <g transform="translate(50%,70%)"transform="rotate(27.5)" >
-      <rect x="0%" y="-32%" width="1%" height="4%" fill="darkorange" />
+      <rect x="0%" y="-34%" width="1%" height="5%" fill="darkorange" />
       <text x="0%" y="-18%"
           font-family="Tungsten-Medium" fill="darkorange"
           font-size="30" font-weight="bold"
           text-anchor="middle">5</text>
     </g>
     <g transform="translate(50%,70%)"transform="rotate(55)" >
-      <rect x="0%" y="-32%" width="1%" height="4%" fill="darkorange" />
-      <text x="0%" y="-18%"
+      <rect x="0%" y="-35%" width="1%" height="6%" fill="darkorange" />
+      <text x="1%" y="-18%"
           font-family="Tungsten-Medium" fill="darkorange"
           font-size="30" font-weight="bold"
           text-anchor="middle">6</text>
     </g>
+    <g transform="translate(50%,70%)"transform="rotate(68.75)" >
+      <rect x="0%" y="-36%" width="2" height="6%" fill="darkorange" />
+    </g>
+    <g transform="translate(50%,70%)"transform="rotate(75.6125)" >
+      <rect x="0%" y="-36%" width="2" height="6%" fill="darkorange" />
+    </g>
     <g transform="translate(50%,70%)"transform="rotate(82.5)" >
-      <rect x="0%" y="-32%" width="1%" height="4%" fill="darkorange" />
+      <rect x="0%" y="-37%" width="1%" height="8%" fill="darkorange" />
       <text x="0%" y="-18%"
           font-family="Tungsten-Medium" fill="darkorange"
           font-size="30" font-weight="bold"
           text-anchor="middle">7</text>
     </g>
+    <g transform="translate(50%,70%)"transform="rotate(89.375)" >
+      <rect x="0%" y="-38%" width="2" height="7%" fill="darkorange" />
+    </g>
+    <g transform="translate(50%,70%)"transform="rotate(96.25)" >
+      <rect x="0%" y="-38%" width="2" height="7%" fill="darkorange" />
+    </g>
+    <g transform="translate(50%,70%)"transform="rotate(103.125)" >
+      <rect x="0%" y="-38%" width="2" height="7%" fill="darkorange" />
+    </g>
     <g transform="translate(50%,70%)"transform="rotate(110)" >
-      <rect x="0%" y="-32%" width="1%" height="4%" fill="darkorange" />
-      <text x="0%" y="-18%"
+      <rect x="0%" y="-39%" width="1%" height="10%" fill="darkorange" />
+      <text x="1%" y="-18%"
           font-family="Tungsten-Medium" fill="darkorange"
           font-size="30" font-weight="bold"
           text-anchor="middle">8</text>

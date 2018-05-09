@@ -18,7 +18,7 @@
 
 #clockLabel {
   font-size: 100;
-  font-family: Tungsten-Medium;
+  font-family: Fabrikat-Bold;
   text-length: 32;
   text-anchor: middle;
   x: 50%;
@@ -33,17 +33,17 @@
 }
 
 #hrLabel {
-  font-size: 26;
+  font-size: 31;
   font-family: Tungsten-Medium;
   text-length: 32;
   text-anchor: middle;
   x: 50%;
-  y: 85%;
+  y: 84%;
   fill: darkorange;
 }
 
 #statsLabel {
-  font-size: 22;
+  font-size: 26;
   font-family: Tungsten-Medium;
   text-length: 32;
   text-anchor: middle;

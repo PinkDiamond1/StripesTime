@@ -37,8 +37,10 @@ let pinStripeRL = document.getElementById("pinStripeRL");
 let pinStripeRR = document.getElementById("pinStripeRR");
 
 let tach = document.getElementById("tach");
+let fuel = document.getElementById("fuel");
 
 let hrNeedle = document.getElementById("hrNeedle");
+let flNeedle = document.getElementById("flNeedle");
 //hrNeedle.groupTransform.rotate.angle = 110;
 
 let hrLabel = document.getElementById("hrLabel");
@@ -138,6 +140,7 @@ function setClockColor(){
 
 function setTachColor(){
   tach.style.fill = settings.tachColor;
+  fuel.style.fill = settings.tachColor;
 }
 
 function applySettings(){
@@ -191,8 +194,6 @@ function updateClock() {
   let mins = util.zeroPad(today.getMinutes());
   let ampm = " am"
   
-  
-  
   //console.log(preferences.clockDisplay);
   if (preferences.clockDisplay == "12h"){
     if (hours > 12){
@@ -234,6 +235,9 @@ function updateClockData() {
       hrNeedle.groupTransform.rotate.angle = angle ;
       hrLabel.text = `${heartRate}`;
     }
+    let degPerB = 135/100
+    let fangle = 135-battery.chargeLevel*degPerB-10
+    flNeedle.groupTransform.rotate.angle = fangle ;
         
     switch (stats[stat]){
       case "steps":
@@ -255,7 +259,7 @@ function updateClockData() {
         statsLabel.text = `${today.adjusted.calories ? today.adjusted.calories.toLocaleString() : 0} cal`;
         break;
       case "batt":
-        statsLabel.text = `${battery.chargeLevel}%`;
+        statsLabel.text = `${battery.chargeLevel} %`;
         break;
     }    
   }
@@ -271,7 +275,7 @@ clickbackground.onclick = function(evt) {
 }
 
 
-setInterval(updateClockData, .1*1000);
+setInterval(updateClockData, .5*1000);
 clock.ontick = () => updateClock();
 
 applySettings();
