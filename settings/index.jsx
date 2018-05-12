@@ -2,6 +2,39 @@ function mySettings(props) {
   return (
     <Page>
       <Section
+        title={<Text bold align="center">Weather</Text>}>
+        <Toggle
+           settingsKey="unitToggle"
+           label="Tempterature in °F or °C"
+         />
+        <Select
+          label={`Weather Update Interval`}
+          settingsKey="updateInterval"
+          options={[
+            {name:"15 minutes"},
+            {name:"30 minutes"},
+            {name:"1 hour"},
+            {name:"2 hours"},
+          ]}
+         />
+        <Text align="center">
+          Decreasing this will use more WATCH battery. 
+        </Text>
+        <Select
+          label={`Location Update Interval`}
+          settingsKey="locationUpdateInterval"
+          options={[
+            {name:"15 minutes"},
+            {name:"30 minutes"},
+            {name:"1 hour"},
+            {name:"2 hours"},
+          ]}
+         />
+         <Text align="center">
+           Decreasing this will use more PHONE battery.
+         </Text>
+      </Section>
+      <Section
         title={<Text bold align="center">Background Color</Text>}>
         <ColorSelect
           settingsKey="bgcolor"
@@ -75,7 +108,7 @@ function mySettings(props) {
    <Section
         title={<Text bold align="center">Contact Me</Text>}>
         <Text>
-          Please don't hesitiate to contact me with questions or suggestions. This and all my other apps will always be free and Open Source. If you really like my app please considder buying me a coffee (or more likely electonic components that end up in my classroom). Thanks!
+          Please don't hesitiate to contact me with questions or suggestions; but be sure to let me know which app or watchface you are talking about. This and all my other apps will always be free and Open Source. If you really like my app please considder buying me a coffee (or more likely electonic components that end up in my classroom). Thanks!
         </Text>
         <Link source="https://rawgit.com/cmspooner/StripesTime/master/settings/email.html">
           <TextImageRow
@@ -102,61 +135,13 @@ function mySettings(props) {
       <Section
         title={<Text bold align="center">Build Version and Notes</Text>}>
         <Text>
-          1.7: Resize Versa Stuff!
+          2.2 Beta: Stupid Javascript doesn't catch typos!
         </Text>
         <Text>
-          1.6.5: Fixes on Versa
+          2.1 Beta: Forgot to set Interval for weather
         </Text>
         <Text>
-          1.6.4: Larger Fuel Guage!
-        </Text>
-        <Text>
-          1.6.3: Enbiggening!
-        </Text>
-        <Text>
-          1.6.2: Fuel Gage direction fixed
-        </Text>
-        <Text>
-          1.6.1: Fuel Gage for versa plus Batt in stats
-        </Text>
-        <Text>
-          1.6: Fuel Gage!
-        </Text>
-        <Text>
-          1.5.1: Fixed Red-Line
-        </Text>
-        <Text>
-          1.5: Added Red-Line
-        </Text>
-        <Text>
-          1.4.2: Cut update rate down
-        </Text>
-        <Text>
-          1.4.1: Added Bttery %
-        </Text>
-        <Text>
-          1.4: Tap to change stats in odo
-        </Text>
-        <Text>
-          1.3: Now with images for Speed and Odo
-        </Text>
-        <Text>
-          1.2.3: Changed how stripes toggels work
-        </Text>
-        <Text>
-          1.2.2: Pinstripes showing now?
-        </Text>
-        <Text>
-          1.2.1: Pinstripes thicker
-        </Text>
-        <Text>
-          1.2: Pinstripes thicker
-        </Text>
-        <Text>
-          1.1: Lots of little fixes icluding fs writing
-        </Text>
-        <Text>
-          1.0: First official release
+          2.0 Beta: Now With Weather
         </Text>
       </Section>
     </Page>

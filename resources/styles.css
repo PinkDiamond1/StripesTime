@@ -52,3 +52,13 @@
   fill: darkorange;
 }
 
+#tempLabel {
+  font-size: 26;
+  font-family: Tungsten-Medium;
+  text-length: 32;
+  text-anchor: middle;
+  x: -5;
+  y: 20;
+  fill: darkorange;
+}
+

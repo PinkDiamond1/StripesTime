@@ -1,6 +1,9 @@
 import * as messaging from "messaging";
 import { settingsStorage } from "settings";
 
+import Weather from '../common/weather/phone';
+let weather = new Weather();
+
 console.log("Companion Started");
 
 // Message socket opens
@@ -42,4 +45,13 @@ function sendVal(data) {
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
     messaging.peerSocket.send(data);
   }
+}
+
+
+weather.onsuccess = (data) => {
+  console.log("Weather on phone " + JSON.stringify(data));
+}
+
+weather.onerror = (error) => {
+  console.log("Weather error " + error);
 }

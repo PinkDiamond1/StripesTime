@@ -47,6 +47,13 @@
       <rect x="0%" y="-13%" width="1%" height="5%" fill="darkorange" />
     </g>
     
+    <circle cx="19%" cy="91%" r="16%" fill="black" />
+    <circle id="temp" cx="19%" cy="91%" r="14%" fill="white"/>
+    <g transform="translate(19%, 91%)">
+      <image id="weatherIcon" x="$-25" y="$-30" width="30" height="30" href="icons/weather/whitePartlySunny.png" load="sync"/>
+      <text id="tempLabel" />
+    </g>
+    
     
     <circle cx="50%" cy="75%" r="40%" fill="black" />
     <circle id="tach" cx="50%" cy="75%" r ="38%" fill="white" />

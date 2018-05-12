@@ -24,6 +24,8 @@ clock.granularity = "minutes";
 
 const SETTINGS_TYPE = "cbor";
 const SETTINGS_FILE = "settings.cbor";
+const WEATHER_FILE = "weather.cbor";
+
 
 let clickbackground = document.getElementById("clickbg");
 
@@ -38,6 +40,7 @@ let pinStripeRR = document.getElementById("pinStripeRR");
 
 let tach = document.getElementById("tach");
 let fuel = document.getElementById("fuel");
+let temp = document.getElementById("temp");
 
 let hrNeedle = document.getElementById("hrNeedle");
 let flNeedle = document.getElementById("flNeedle");
@@ -46,9 +49,19 @@ let flNeedle = document.getElementById("flNeedle");
 let hrLabel = document.getElementById("hrLabel");
 //hrLabel.text = "193"
 let statsLabel = document.getElementById("statsLabel");
+let tempLabel = document.getElementById("tempLabel");
+let weatherIcon = document.getElementById("weatherIcon");
+//tempLabel.text="112°"
 //stepsLabel.text = "21,753 steps"
 
 let settings = loadSettings();
+let weatherData = loadWeather();
+if (weatherData == null){
+  tempLabel.text = "...";
+  weatherIcon.href = "";
+} else {
+  drawWeather(weatherData);
+}
 
 var stats = ["steps", 
             "distance",
@@ -58,9 +71,30 @@ var stats = ["steps",
             "batt"]
 var stat = 0;
 
+var userUnits =  units.temperature.toLowerCase();
+let weatherInterval = null;
+let openedWeatherRequest = false;
+var updateInterval = 30;
+var updateLocationInterval = 30;
+
+
+
+
 // Message is received
 messaging.peerSocket.onmessage = evt => {
   console.log(`App received: ${JSON.stringify(evt)}`);  
+  if (evt.data.key === "unitToggle" && evt.data.newValue) {
+    settings.unitToggle = JSON.parse(evt.data.newValue) 
+    setUnit();
+  }
+  if (evt.data.key === "updateInterval" && evt.data.newValue) {
+    settings.updateInterval = JSON.parse(evt.data.newValue).values[0].name
+    setUpdateInterval();
+  }
+  if (evt.data.key === "locationUpdateInterval" && evt.data.newValue) {
+    settings.updateLocationInterval = JSON.parse(evt.data.newValue).values[0].name
+    setLocationUpdateInterval();
+  }
   if (evt.data.key === "bgcolor" && evt.data.newValue) {
     settings.bgColor = JSON.parse(evt.data.newValue);
     console.log(`Setting background color: ${settings.bgColor}`);
@@ -98,6 +132,78 @@ messaging.peerSocket.onmessage = evt => {
   }
   saveSettings();
 };
+
+function setUnit(){
+  console.log(`Celsius: ${settings.unitToggle}`);
+  var oldUnits = userUnits;
+  if (settings.unitToggle)
+    userUnits = 'c';
+  else
+    userUnits = 'f';
+  if (oldUnits != userUnits){
+    weather.setMaximumAge(0 * 60 * 1000); 
+    weather.setUnit(userUnits);
+    if (!openedWeatherRequest){
+      console.log("Forcing Update Unit Change");
+      openedWeatherRequest = true;
+      weather.fetch();
+    }
+    weather.setMaximumAge(updateInterval * 60 * 1000); 
+  }
+  weather.setUnit(userUnits);
+}
+
+function setUpdateInterval(){
+  console.log(`updateInterval is: ${settings.updateInterval}`);
+  let oldInterval = updateInterval;
+  if (settings.updateInterval == "5 minutes")
+    updateInterval = 5;
+  else if (settings.updateInterval == "15 minutes")
+    updateInterval = 15;
+  else if (settings.updateInterval == "30 minutes")
+    updateInterval = 30;
+  else if (settings.updateInterval == "1 hour")
+    updateInterval = 60;
+  else if (settings.updateInterval == "2 hours")
+    updateInterval = 120;
+  if (updateInterval < oldInterval){
+    weather.setMaximumAge(1 * 60 * 1000); 
+    if (!openedWeatherRequest){
+      console.log("Forcing Update Interval Change");
+      openedWeatherRequest = true;
+      weather.fetch();
+    }
+  }
+  weather.setMaximumAge(updateInterval * 60 * 1000); 
+  if (weatherInterval != null)
+    clearInterval(weatherInterval);
+  weatherInterval = setInterval(fetchWeather, updateInterval*60*1000);
+  //console.log("Acutal Interval: " + weather._maximumAge)
+}
+
+function setLocationUpdateInterval(){
+  console.log(`locationUpdateInterval is: ${settings.updateLocationInterval}`);
+  let oldLocationInterval = updateLocationInterval;
+  if (settings.updateLocationInterval == "5 minutes")
+    updateLocationInterval = 5;
+  else if (settings.updateLocationInterval == "15 minutes")
+    updateLocationInterval = 15;
+  else if (settings.updateLocationInterval == "30 minutes")
+    updateLocationInterval = 30;
+  else if (settings.updateLocationInterval == "1 hour")
+    updateLocationInterval = 60;
+  else if (settings.updateLocationInterval == "2 hours")
+    updateLocationInterval = 120;
+  if (updateLocationInterval < oldLocationInterval){
+    weather.setMaximumLocationAge(1 * 60 * 1000); 
+    if (!openedWeatherRequest){
+    console.log("Forcing Location Update Interval Change");
+      openedWeatherRequest = true;
+      weather.fetch();
+    }
+  }
+  weather.setMaximumLocationAge(updateLocationInterval * 60 * 1000);
+}
 
 function setBgColor(){
   background.style.fill = settings.bgColor;
@@ -141,25 +247,76 @@ function setClockColor(){
 function setTachColor(){
   tach.style.fill = settings.tachColor;
   fuel.style.fill = settings.tachColor;
+  temp.style.fill = settings.tachColor;
 }
 
 function applySettings(){
+  setUnit();
+  setUpdateInterval();
+  setLocationUpdateInterval();
   setBgColor();
   setStripesColor();
   setPinStripesColor();
   setClockColor();
   setTachColor();
+  openedWeatherRequest = false;
 }
 
 // Message socket opens
 messaging.peerSocket.onopen = () => {
   console.log("App Socket Open");
+  weather.fetch();
+  console.log("I Should be Fetching Weather!");
+  openedWeatherRequest = true;
 };
 
 // Message socket closes
 messaging.peerSocket.close = () => {
   console.log("App Socket Closed");
 };
+
+function drawWeather(data){
+  console.log(data.conditionCode + ", " + data.description);
+  weatherIcon.href = util.getForecastIcon(data.conditionCode,
+                                                data.description);
+  tempLabel.text = data.temperature + "°";
+}
+
+function fetchWeather(){
+  openedWeatherRequest = false;
+  console.log("auto fetch");
+  weather.fetch();
+}
+
+//----------------Weather Setup------------------------
+import Weather from '../common/weather/device';
+
+let weather = new Weather();
+weather.setProvider("yahoo"); 
+weather.setApiKey("");
+weather.setMaximumAge(10 * 60 * 1000); 
+weather.setFeelsLike(false);
+weather.setUnit(units.temperature.toLowerCase());
+
+applySettings();
+
+weather.onsuccess = (data) => {
+  weatherData = data;
+  openedWeatherRequest = false;
+
+  drawWeather(data);
+}
+
+weather.onerror = (error) => {
+  console.log("Weather error " + JSON.stringify(error));
+  openedWeatherRequest = false;
+}
+
+
+if (settings.noFile){
+  console.log("No Settings File");
+  weather.fetch();
+}
 
 me.onunload = saveSettings;
 
@@ -170,6 +327,9 @@ function loadSettings() {
   } catch (ex) {
     console.log("No File")
     return {
+      updateInterval : "30 minutes",
+      updateLocationInterval : "30 minutes",
+      unitToggle : false,
       bgColor : "deepskyblue",
       stripesColor : "silver",
       pinStripesColor : "black",
@@ -182,12 +342,25 @@ function loadSettings() {
   }
 }
 
+function loadWeather(){
+  try {
+    return fs.readFileSync(WEATHER_FILE, SETTINGS_TYPE);
+  } catch (ex) {
+    // Defaults
+    return null;
+  }
+}
+
 function saveSettings() {
   console.log("Saving Settings");
   settings.noFile = false;
   fs.writeFileSync(SETTINGS_FILE, settings, SETTINGS_TYPE);
+  saveWeather();
 }
 
+function saveWeather() {
+  fs.writeFileSync(WEATHER_FILE, weatherData, SETTINGS_TYPE);
+}
 function updateClock() {
   let today = new Date();
   let hours = today.getHours();
@@ -275,9 +448,8 @@ clickbackground.onclick = function(evt) {
   console.log(stats[stat]);
 }
 
-
+weatherInterval = setInterval(fetchWeather, updateInterval*60*1000);
 setInterval(updateClockData, .5*1000);
 clock.ontick = () => updateClock();
 
-applySettings();
 hrm.start();

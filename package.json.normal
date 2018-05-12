@@ -1,16 +1,14 @@
 {
   "fitbit": {
-    "appUUID": "6e2fee99-9afd-493f-9067-00c5ea3dbc2c",
+    "appUUID": "69c58b1c-3e15-4438-9690-d06c9b8910f1",
     "appType": "clockface",
-    "appDisplayName": "CooperTime Beta",
+    "appDisplayName": "CooperTime",
     "iconFile": "resources/icon.png",
     "wipeColor": "",
     "requestedPermissions": [
       "access_activity",
       "access_user_profile",
-      "access_heart_rate",
-      "access_location",
-      "access_internet"
+      "access_heart_rate"
     ],
     "buildTargets": [
       "higgs",
@@ -18,7 +16,7 @@
     ],
     "i18n": {
       "en": {
-        "name": "CooperTime Beta"
+        "name": "CooperTime"
       }
     }
   }
