@@ -277,8 +277,7 @@ messaging.peerSocket.close = () => {
 
 function drawWeather(data){
   console.log(data.conditionCode + ", " + data.description);
-  weatherIcon.href = util.getForecastIcon(data.conditionCode,
-                                                data.description);
+  weatherIcon.href = util.getWeatherIcon(data);
   tempLabel.text = data.temperature + "°";
 }
 

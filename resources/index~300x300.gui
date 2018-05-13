@@ -49,6 +49,9 @@
     <circle cx="12%" cy="91%" r="12%" fill="black" />
     <circle id="temp" cx="12%" cy="91%" r="10%" fill="white"/>
     <g transform="translate(12%, 91%)">
+      <image x="$-18" y="-2" width="32" height="28" href="images/speed.png" load="sync"/>
+    </g>
+    <g transform="translate(12%, 91%)">
       <image id="weatherIcon" x="$-23" y="$-27" width="28" height="28" href="icons/weather/whitePartlySunny.png" load="sync"/>
       <text id="tempLabel" />
     </g>
@@ -57,12 +60,12 @@
     <circle cx="50%" cy="77%" r="36%" fill="black" />    
     <circle id="tach" cx="50%" cy="77%" r ="34%" fill="white" />
     <circle cx="50%" cy="74%" r ="5%" fill="silver" />
-    <g id="hrNeedle" transform="translate(50%, 74%)">
+    <g id="hrNeedle" transform="translate(50%, 74%)" transform="rotate(-110)">
       <image id="hrNeedleImage" x="$-5" y="$-36" width="10" height="32" href="images/needle.png" load="sync"/>
     </g>
 
     <g transform="translate(50%, 84%)">
-      <image x="$-17" y="$-16" width="34" height="32" href="images/speed.png" load="sync"/>
+      <image x="$-17" y="$-16" width="34" height="30" href="images/speed.png" load="sync"/>
     </g>
     <text id = "hrLabel" />
     <g transform="translate(50%, 95%)">

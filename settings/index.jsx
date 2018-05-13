@@ -135,6 +135,15 @@ function mySettings(props) {
       <Section
         title={<Text bold align="center">Build Version and Notes</Text>}>
         <Text>
+          2.3.2 Beta: Added bg for Ionic
+        </Text>
+        <Text>
+          2.3.1 Beta: Added Square to Versa Temp
+        </Text>
+        <Text>
+          2.3 Beta: Fixed night Icons
+        </Text>
+        <Text>
           2.2 Beta: Stupid Javascript doesn't catch typos!
         </Text>
         <Text>
