@@ -13,10 +13,18 @@ import { units } from "user-settings";
 import { display } from "display";
 import { me } from "appbit";
 import { battery } from "power";
+import { me as device } from "device";
+if (!device.screen) device.screen = { width: 348, height: 250 };
+console.log(`Dimensions: ${device.screen.width}x${device.screen.height}`);
+var deviceType = "Ionic";
+if (device.screen.width == 300 && device.screen.height == 300)
+  deviceType = "Versa";
 
 import * as util from "./util";
 
 let hrm = new HeartRateSensor();
+
+
 
 console.log("App Started");
 
@@ -33,10 +41,13 @@ let background = document.getElementById("background");
 let clockLabel = document.getElementById("clockLabel");
 let mainStripeL = document.getElementById("mainStripeL");
 let pinStripeLL = document.getElementById("pinStripeLL");
+let pinStripeLLB = document.getElementById("pinStripeLLB");
 let pinStripeLR = document.getElementById("pinStripeLR");
 let mainStripeR = document.getElementById("mainStripeR");
 let pinStripeRL = document.getElementById("pinStripeRL");
 let pinStripeRR = document.getElementById("pinStripeRR");
+let pinStripeRLB = document.getElementById("pinStripeRLB");
+
 
 let tach = document.getElementById("tach");
 let fuel = document.getElementById("fuel");
@@ -100,19 +111,14 @@ messaging.peerSocket.onmessage = evt => {
     console.log(`Setting background color: ${settings.bgColor}`);
     setBgColor();
   }
-  if (evt.data.key === "stripeColor" && evt.data.newValue) {
-    settings.stripesColor = JSON.parse(evt.data.newValue);
-    console.log(`Setting Stripe color: ${settings.stripesColor}`);
-    setStripesColor();
-  }
-  if (evt.data.key === "pinStripeColor" && evt.data.newValue) {
-    settings.pinStripesColor = JSON.parse(evt.data.newValue);
-    console.log(`Setting Pin Stripe color: ${settings.pinStripesColor}`);
-    setPinStripesColor();
-  }
   if (evt.data.key === "stripesToggle" && evt.data.newValue) {
     settings.stripes = JSON.parse(evt.data.newValue);
     console.log(`Stripes: ${settings.stripes}`);
+    setStripesColor();
+  }
+  if (evt.data.key === "stripeColor" && evt.data.newValue) {
+    settings.stripesColor = JSON.parse(evt.data.newValue);
+    console.log(`Setting Stripe color: ${settings.stripesColor}`);
     setStripesColor();
   }
   if (evt.data.key === "pinStripesToggle" && evt.data.newValue) {
@@ -120,6 +126,16 @@ messaging.peerSocket.onmessage = evt => {
     console.log(`Pin Stripes: ${settings.pinStripes}`);
     setPinStripesColor();
   }
+  if (evt.data.key === "pinStripesSpacing" && evt.data.newValue) {
+    settings.pinStripesSpacing = JSON.parse(evt.data.newValue);
+    console.log(`Pin Stripes: ${settings.pinStripesSpacing}`);
+    setPinStripesSpace();
+  }
+  if (evt.data.key === "pinStripeColor" && evt.data.newValue) {
+    settings.pinStripesColor = JSON.parse(evt.data.newValue);
+    console.log(`Setting Pin Stripe color: ${settings.pinStripesColor}`);
+    setPinStripesColor();
+  } 
   if (evt.data.key === "clockColor" && evt.data.newValue) {
     settings.clockColor = JSON.parse(evt.data.newValue);
     console.log(`Setting Clock color: ${settings.clockColor}`);
@@ -226,17 +242,52 @@ function setPinStripesColor(){
     console.log("Setting Pin Stripes to: " + settings.pinStripesColor+"!!!")
     pinStripeRL.style.display = "inline";
     pinStripeRL.style.fill = settings.pinStripesColor;
+    pinStripeRLB.style.display = "inline";
+    pinStripeRLB.style.fill = settings.pinStripesColor;
     pinStripeRR.style.display = "inline";
     pinStripeRR.style.fill = settings.pinStripesColor;
     pinStripeLL.style.display = "inline";
     pinStripeLL.style.fill = settings.pinStripesColor;
+    pinStripeLLB.style.display = "inline";
+    pinStripeLLB.style.fill = settings.pinStripesColor;
     pinStripeLR.style.display = "inline";
     pinStripeLR.style.fill = settings.pinStripesColor;
   } else {
     pinStripeRL.style.display = "none";
+    pinStripeLLB.style.display = "none";
     pinStripeRR.style.display = "none";
     pinStripeLL.style.display = "none";
+    pinStripeLLB.style.display = "none";
     pinStripeLR.style.display = "none";
+  }
+}
+
+function setPinStripesSpace(){
+  console.log("Moving Stripes")
+  if (deviceType == "Versa"){
+    pinStripeLL.x1 = 12 - parseInt(settings.pinStripesSpacing);
+    pinStripeLL.x2 = 27 - parseInt(settings.pinStripesSpacing);
+    pinStripeLLB.cx = 27 - parseInt(settings.pinStripesSpacing);
+    pinStripeLR.x1 = 48 + parseInt(settings.pinStripesSpacing);
+    pinStripeLR.x2 = 63 + parseInt(settings.pinStripesSpacing);
+    
+    pinStripeRL.x1 = 252 - parseInt(settings.pinStripesSpacing);
+    pinStripeRL.x2 = 237 - parseInt(settings.pinStripesSpacing);
+    pinStripeRR.x1 = 288 + parseInt(settings.pinStripesSpacing);
+    pinStripeRR.x2 = 273 + parseInt(settings.pinStripesSpacing);
+    pinStripeRLB.cx = 273 + parseInt(settings.pinStripesSpacing);
+  } else {
+    pinStripeLL.x1 = 17 - parseInt(settings.pinStripesSpacing);
+    pinStripeLL.x2 = 34 - parseInt(settings.pinStripesSpacing);
+    pinStripeLLB.cx = 34 - parseInt(settings.pinStripesSpacing);
+    pinStripeLR.x1 = 51 + parseInt(settings.pinStripesSpacing);
+    pinStripeLR.x2 = 68 + parseInt(settings.pinStripesSpacing);
+    
+    pinStripeRR.x1 = 297 - parseInt(settings.pinStripesSpacing);
+    pinStripeRR.x2 = 280 - parseInt(settings.pinStripesSpacing);
+    pinStripeRL.x1 = 331 + parseInt(settings.pinStripesSpacing);
+    pinStripeRL.x2 = 314 + parseInt(settings.pinStripesSpacing);
+    pinStripeRLB.cx = 314 + parseInt(settings.pinStripesSpacing);
   }
 }
 
@@ -257,6 +308,7 @@ function applySettings(){
   setBgColor();
   setStripesColor();
   setPinStripesColor();
+  setPinStripesSpace();
   setClockColor();
   setTachColor();
   openedWeatherRequest = false;
@@ -332,6 +384,7 @@ function loadSettings() {
       bgColor : "deepskyblue",
       stripesColor : "silver",
       pinStripesColor : "black",
+      pinStripesSpacing : 0,
       stripes : true,
       pinStripes: true,
       clockColor : "black",
@@ -450,5 +503,6 @@ clickbackground.onclick = function(evt) {
 weatherInterval = setInterval(fetchWeather, updateInterval*60*1000);
 setInterval(updateClockData, .5*1000);
 clock.ontick = () => updateClock();
+weather.fetch();
 
 hrm.start();

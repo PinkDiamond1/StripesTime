@@ -145,13 +145,49 @@ function mySettings(props) {
       <Section
         title={<Text bold align="center">Build Version and Notes</Text>}>
         <Text>
-          2.0.1: Added an extra weather.fetch(), to ensure weather gets updates.
+          2.4.4.3 Beta: Add circles at bottom of both pinStripe
         </Text>
         <Text>
-          2.0: Weather and more control over pin-stripes
+          2.4.4.2 Beta: Add circles at bottom of both pinStripe
         </Text>
         <Text>
-          1.0: First Release
+          2.4.4.1 Beta: Add circle at bottom of pinStripe
+        </Text>
+        <Text>
+          2.4.4 Beta: Addcircle at bottom of pinStripe
+        </Text>
+        <Text>
+          2.4.3 Beta: Ionic Adjustments 3
+        </Text>
+        <Text>
+          2.4.2 Beta: Ionic Adjustments 2
+        </Text>
+        <Text>
+          2.4.1 Beta: Ionic Adjustments
+        </Text>
+        <Text>
+          2.4 Beta: New Stripes Options
+        </Text>
+        <Text>
+          2.3.3 Beta: Settings now shows units
+        </Text>
+        <Text>
+          2.3.2 Beta: Added bg for Ionic
+        </Text>
+        <Text>
+          2.3.1 Beta: Added Square to Versa Temp
+        </Text>
+        <Text>
+          2.3 Beta: Fixed night Icons
+        </Text>
+        <Text>
+          2.2 Beta: Stupid Javascript doesn't catch typos!
+        </Text>
+        <Text>
+          2.1 Beta: Forgot to set Interval for weather
+        </Text>
+        <Text>
+          2.0 Beta: Now With Weather
         </Text>
       </Section>
     </Page>

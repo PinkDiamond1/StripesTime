@@ -1,13 +1,15 @@
 <svg class="background">
   <svg id="clock" display="inline">
     <rect id="background" />
-    <line id="pinStripeLL" x1="4%" y1="-2" x2="9%" y2="102%" stroke-width="6"/>
-    <line id="pinStripeLR" x1="16%" y1="-2" x2="21%" y2="102%" stroke-width="6"/>
-    <line id="mainStripeL" x1="10%" y1="-2" x2="15%" y2="102%" stroke-width="31"/>
+    <line id="pinStripeLL" x1="12" y1="-2" x2="27" y2="302" stroke-width="6"/>
+    <circle id="pinStripeLLB" cx="27" cy="250" r="3" />
+    <line id="pinStripeLR" x1="48" y1="-2" x2="63" y2="302" stroke-width="6"/>
+    <line id="mainStripeL" x1="30" y1="-2" x2="45" y2="102%" stroke-width="31"/>
 
-    <line id="pinStripeRR" x1="84%" y1="-2" x2="79%" y2="102%" stroke-width="6"/>
-    <line id="pinStripeRL" x1="96%" y1="-2" x2="91%" y2="102%" stroke-width="6"/>
-    <line id="mainStripeR" x1="90%" y1="-2" x2="85%" y2="102%" stroke-width="31"/>
+    <line id="pinStripeRR" x1="252" y1="-2" x2="237" y2="302" stroke-width="6"/>
+    <line id="pinStripeRL" x1="288" y1="-2" x2="273" y2="302" stroke-width="6"/>
+    <circle id="pinStripeRLB" cx="273" cy="250" r="3" />
+    <line id="mainStripeR" x1="270" y1="-2" x2="255" y2="302" stroke-width="31"/>
 
     <text id="clockLabel" />
     
