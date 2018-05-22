@@ -13,6 +13,10 @@ import { units } from "user-settings";
 import { display } from "display";
 import { me } from "appbit";
 import { battery } from "power";
+import { memory } from "system";
+
+console.log("JS memory: " + memory.js.used + "/" + memory.js.total);
+
 import { me as device } from "device";
 if (!device.screen) device.screen = { width: 348, height: 250 };
 console.log(`Dimensions: ${device.screen.width}x${device.screen.height}`);
@@ -20,66 +24,48 @@ var deviceType = "Ionic";
 if (device.screen.width == 300 && device.screen.height == 300)
   deviceType = "Versa";
 
+import Weather from '../common/weather/device';
+
+let weather = new Weather();
+weather.setProvider("yahoo"); 
+weather.setApiKey("");
+weather.setMaximumAge(10 * 60 * 1000); 
+weather.setFeelsLike(false);
+weather.setUnit(units.temperature.toLowerCase());
+
 import * as util from "./util";
 
 let hrm = new HeartRateSensor();
-
-
 
 console.log("App Started");
 
 clock.granularity = "minutes";
 
-const SETTINGS_TYPE = "cbor";
-const SETTINGS_FILE = "settings.cbor";
-const WEATHER_FILE = "weather.cbor";
-
-
 let clickbackground = document.getElementById("clickbg");
 
-let background = document.getElementById("background");
-let clockLabel = document.getElementById("clockLabel");
-let mainStripeL = document.getElementById("mainStripeL");
-let pinStripeLL = document.getElementById("pinStripeLL");
-let pinStripeLLB = document.getElementById("pinStripeLLB");
-let pinStripeLR = document.getElementById("pinStripeLR");
-let mainStripeR = document.getElementById("mainStripeR");
-let pinStripeRL = document.getElementById("pinStripeRL");
-let pinStripeRR = document.getElementById("pinStripeRR");
-let pinStripeRLB = document.getElementById("pinStripeRLB");
-
-
-let tach = document.getElementById("tach");
-let fuel = document.getElementById("fuel");
-let temp = document.getElementById("temp");
-
-let hrNeedle = document.getElementById("hrNeedle");
-let flNeedle = document.getElementById("flNeedle");
-//hrNeedle.groupTransform.rotate.angle = 110;
-
-let hrLabel = document.getElementById("hrLabel");
-//hrLabel.text = "193"
-let statsLabel = document.getElementById("statsLabel");
-let tempLabel = document.getElementById("tempLabel");
-let weatherIcon = document.getElementById("weatherIcon");
 //tempLabel.text="112°"
 //stepsLabel.text = "21,753 steps"
 
 let settings = loadSettings();
 let weatherData = loadWeather();
 if (weatherData == null){
-  tempLabel.text = "...";
-  weatherIcon.href = "";
+  drawWeatherLoadMsg() 
 } else {
   drawWeather(weatherData);
 }
 
-var stats = ["steps", 
-            "distance",
-            "floors",
-            "active",
-            "cals",
-            "batt"]
+
+
+function stats(){
+  return [
+          "steps", 
+          "distance",
+          "floors",
+          "active",
+          "cals",
+          "batt"
+  ]
+}
 var stat = 0;
 
 var userUnits =  units.temperature.toLowerCase();
@@ -146,6 +132,7 @@ messaging.peerSocket.onmessage = evt => {
     console.log(`Setting Tach color: ${settings.clockColor}`);
     setTachColor();
   }
+  console.log("JS memory: " + memory.js.used + "/" + memory.js.total);
   saveSettings();
 };
 
@@ -162,7 +149,7 @@ function setUnit(){
     if (!openedWeatherRequest){
       console.log("Forcing Update Unit Change");
       openedWeatherRequest = true;
-      weather.fetch();
+      fetchWeather();
     }
     weather.setMaximumAge(updateInterval * 60 * 1000); 
   }
@@ -187,7 +174,7 @@ function setUpdateInterval(){
     if (!openedWeatherRequest){
       console.log("Forcing Update Interval Change");
       openedWeatherRequest = true;
-      weather.fetch();
+      fetchWeather();
     }
   }
   weather.setMaximumAge(updateInterval * 60 * 1000); 
@@ -215,17 +202,21 @@ function setLocationUpdateInterval(){
     if (!openedWeatherRequest){
     console.log("Forcing Location Update Interval Change");
       openedWeatherRequest = true;
-      weather.fetch();
+      fetchWeather()
     }
   }
   weather.setMaximumLocationAge(updateLocationInterval * 60 * 1000);
 }
 
 function setBgColor(){
+  let background = document.getElementById("background");
   background.style.fill = settings.bgColor;
 }
 
 function setStripesColor(){
+  let mainStripeL = document.getElementById("mainStripeL");
+  let mainStripeR = document.getElementById("mainStripeR");
+  
   if (settings.stripes){
     mainStripeR.style.display = "inline";
     mainStripeR.style.fill = settings.stripesColor;
@@ -238,6 +229,14 @@ function setStripesColor(){
 }
 
 function setPinStripesColor(){
+  let pinStripeLL = document.getElementById("pinStripeLL");
+  let pinStripeLLB = document.getElementById("pinStripeLLB");
+  let pinStripeLR = document.getElementById("pinStripeLR");
+
+  let pinStripeRL = document.getElementById("pinStripeRL");
+  let pinStripeRR = document.getElementById("pinStripeRR");
+  let pinStripeRLB = document.getElementById("pinStripeRLB");
+  
   if (settings.pinStripes){
     console.log("Setting Pin Stripes to: " + settings.pinStripesColor+"!!!")
     pinStripeRL.style.display = "inline";
@@ -264,6 +263,14 @@ function setPinStripesColor(){
 
 function setPinStripesSpace(){
   console.log("Moving Stripes")
+  let pinStripeLL = document.getElementById("pinStripeLL");
+  let pinStripeLLB = document.getElementById("pinStripeLLB");
+  let pinStripeLR = document.getElementById("pinStripeLR");
+
+  let pinStripeRL = document.getElementById("pinStripeRL");
+  let pinStripeRR = document.getElementById("pinStripeRR");
+  let pinStripeRLB = document.getElementById("pinStripeRLB");
+  
   if (deviceType == "Versa"){
     pinStripeLL.x1 = 12 - parseInt(settings.pinStripesSpacing);
     pinStripeLL.x2 = 27 - parseInt(settings.pinStripesSpacing);
@@ -292,10 +299,15 @@ function setPinStripesSpace(){
 }
 
 function setClockColor(){
+  let clockLabel = document.getElementById("clockLabel");
   clockLabel.style.fill = settings.clockColor;
 }
 
 function setTachColor(){
+  let tach = document.getElementById("tach");
+  let fuel = document.getElementById("fuel");
+  let temp = document.getElementById("temp");
+
   tach.style.fill = settings.tachColor;
   fuel.style.fill = settings.tachColor;
   temp.style.fill = settings.tachColor;
@@ -317,9 +329,11 @@ function applySettings(){
 // Message socket opens
 messaging.peerSocket.onopen = () => {
   console.log("App Socket Open");
-  weather.fetch();
-  console.log("I Should be Fetching Weather!");
-  openedWeatherRequest = true;
+  if (!openedWeatherRequest){
+      console.log("Forcing Update Socket Open");
+      openedWeatherRequest = true;
+      fetchWeather();
+    }
 };
 
 // Message socket closes
@@ -327,7 +341,23 @@ messaging.peerSocket.close = () => {
   console.log("App Socket Closed");
 };
 
+function drawWeatherLoadMsg(){
+  let weatherIcon = document.getElementById("weatherIcon");
+  let tempLabel = document.getElementById("tempLabel");
+  
+  tempLabel.text = "...";
+  weatherIcon.href = "";
+  if (!openedWeatherRequest){
+      console.log("Forcing Update No File");
+      openedWeatherRequest = true;
+      fetchWeather();
+    }
+}
+
 function drawWeather(data){
+  let weatherIcon = document.getElementById("weatherIcon");
+  let tempLabel = document.getElementById("tempLabel");
+
   console.log(data.conditionCode + ", " + data.description);
   weatherIcon.href = util.getWeatherIcon(data);
   tempLabel.text = data.temperature + "°";
@@ -340,14 +370,7 @@ function fetchWeather(){
 }
 
 //----------------Weather Setup------------------------
-import Weather from '../common/weather/device';
 
-let weather = new Weather();
-weather.setProvider("yahoo"); 
-weather.setApiKey("");
-weather.setMaximumAge(10 * 60 * 1000); 
-weather.setFeelsLike(false);
-weather.setUnit(units.temperature.toLowerCase());
 
 applySettings();
 
@@ -373,6 +396,10 @@ me.onunload = saveSettings;
 
 function loadSettings() {
   console.log("Loading Settings!")
+  
+  const SETTINGS_TYPE = "cbor";
+  const SETTINGS_FILE = "settings.cbor";
+  
   try {
     return fs.readFileSync(SETTINGS_FILE, SETTINGS_TYPE);
   } catch (ex) {
@@ -395,6 +422,9 @@ function loadSettings() {
 }
 
 function loadWeather(){
+  const SETTINGS_TYPE = "cbor";
+  const WEATHER_FILE = "weather.cbor";
+  
   try {
     return fs.readFileSync(WEATHER_FILE, SETTINGS_TYPE);
   } catch (ex) {
@@ -405,15 +435,24 @@ function loadWeather(){
 
 function saveSettings() {
   console.log("Saving Settings");
+  
+  const SETTINGS_TYPE = "cbor";
+  const SETTINGS_FILE = "settings.cbor";
+  
   settings.noFile = false;
   fs.writeFileSync(SETTINGS_FILE, settings, SETTINGS_TYPE);
   saveWeather();
 }
 
 function saveWeather() {
+  const SETTINGS_TYPE = "cbor";
+  const WEATHER_FILE = "weather.cbor";
+
   fs.writeFileSync(WEATHER_FILE, weatherData, SETTINGS_TYPE);
 }
 function updateClock() {
+  let clockLabel = document.getElementById("clockLabel");
+  
   let today = new Date();
   let hours = today.getHours();
   let mins = util.zeroPad(today.getMinutes());
@@ -439,6 +478,11 @@ function updateClock() {
 
 function updateClockData() {
   if (display.on){
+    let hrNeedle = document.getElementById("hrNeedle");
+    let flNeedle = document.getElementById("flNeedle");
+   
+    let hrLabel = document.getElementById("hrLabel");
+    let statsLabel = document.getElementById("statsLabel");
 
     //console.log("Data:");
     //console.log(data.heart.theHeartRate);
@@ -465,7 +509,7 @@ function updateClockData() {
     let fangle = 135-battery.chargeLevel*degPerB-10
     flNeedle.groupTransform.rotate.angle = fangle ;
         
-    switch (stats[stat]){
+    switch (stats()[stat]){
       case "steps":
         statsLabel.text = `${today.adjusted.steps ? today.adjusted.steps.toLocaleString(): 0} steps`;
         break;
@@ -503,6 +547,9 @@ clickbackground.onclick = function(evt) {
 weatherInterval = setInterval(fetchWeather, updateInterval*60*1000);
 setInterval(updateClockData, .5*1000);
 clock.ontick = () => updateClock();
-weather.fetch();
-
+if (!openedWeatherRequest){
+      console.log("Forcing Update Face Started");
+      openedWeatherRequest = true;
+      fetchWeather();
+    }
 hrm.start();
