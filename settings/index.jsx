@@ -162,12 +162,15 @@ function mySettings(props) {
           <TextImageRow
             label="OpenWeatherMap"
             sublabel="Weather data provided by OpenWeatherMap.org"
-            icon="https://github.com/cmspooner/ForecastTime/blob/master/resources/icons/settings/OpenWeatherMap.png?raw=true"
+            icon="https://github.com/cmspooner/StripesTime/blob/master/resources/icons/settings/OpenWeatherMap.png?raw=true"
           />
         </Link>
       </Section>
       <Section
         title={<Text bold align="center">Build Version and Notes</Text>}>
+        <Text>
+          3.4.1 Beta: Fix stripe color when showing image.
+        </Text>
         <Text>
           3.4 Beta: Added better settings for Images and added monochrome stripes.
         </Text>

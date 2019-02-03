@@ -244,9 +244,13 @@ function setStripesColor(){
   if (settings.stripesImage == "Union Jack" && settings.stripes){
     stripesImageLeft.href = "Images/unionJackStripe-" + deviceType + ".png";
     stripesImageRight.href = "Images/unionJackStripe-" + deviceType + ".png";
+    mainStripeR.style.display = "none";
+    mainStripeL.style.display = "none";
   } else if (settings.stripesImage == "Monochrome Union Jack" && settings.stripes){
     stripesImageLeft.href = "Images/unionJackStripe-monochrome-" + deviceType + ".png";
     stripesImageRight.href = "Images/unionJackStripe-monochrome-" + deviceType + ".png";
+    mainStripeR.style.display = "none";
+    mainStripeL.style.display = "none";
   } else if (settings.stripes){
     mainStripeR.style.display = "inline";
     mainStripeR.style.fill = settings.stripesColor;
