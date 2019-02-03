@@ -38,6 +38,14 @@ function mySettings(props) {
       </Section>
       <Section
         title={<Text bold align="center">Background Color</Text>}>
+        <Select
+          label={`Backgound`}
+          settingsKey="bgImage"
+          options={[
+            {name:"Color"},
+            {name:"Union Jack"}
+          ]}
+         />
         <ColorSelect
           settingsKey="bgcolor"
           colors={[
@@ -60,6 +68,15 @@ function mySettings(props) {
           settingsKey="stripesToggle"
           label="Stripes On/Off"
         />
+        <Select
+          label={`Stripes`}
+          settingsKey="stripesImage"
+          options={[
+            {name:"Color"},
+            {name:"Union Jack"},
+            {name:"Monochrome Union Jack"}
+          ]}
+         />
         <ColorSelect
           settingsKey="stripeColor"
           colors={[
@@ -140,10 +157,35 @@ function mySettings(props) {
             sublabel="cmspooner@gmail.com"
             icon="https://github.com/cmspooner/StripesTime/blob/master/resources/icons/settings/Paypal.png?raw=true"
           />
+          </Link>
+        <Link source="https://openweathermap.org">
+          <TextImageRow
+            label="OpenWeatherMap"
+            sublabel="Weather data provided by OpenWeatherMap.org"
+            icon="https://github.com/cmspooner/ForecastTime/blob/master/resources/icons/settings/OpenWeatherMap.png?raw=true"
+          />
         </Link>
       </Section>
       <Section
         title={<Text bold align="center">Build Version and Notes</Text>}>
+        <Text>
+          3.4 Beta: Added better settings for Images and added monochrome stripes.
+        </Text>
+        <Text>
+          3.3.1 Beta: Fixed Heart Rate...
+        </Text>
+        <Text>
+          3.3 Beta: Union Jack Stripes
+        </Text>
+        <Text>
+          3.2.1 Beta: Fixed haze Icon
+        </Text>
+        <Text>
+          3.2 Beta: Union Jack Option
+        </Text>
+        <Text>
+          3.1 Beta: Fix Weather and Layout
+        </Text>
         <Text>
           3.0 Beta: More memory efficient!
         </Text>

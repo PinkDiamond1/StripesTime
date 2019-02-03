@@ -8,8 +8,8 @@ import { WEATHER_MESSAGE_KEY, WEATHER_DATA_FILE, WEATHER_ERROR_FILE, Conditions 
 export default class Weather {
   
   constructor() {
-    this._apiKey = '';
-    this._provider = 'yahoo';
+    this._apiKey = '30e538c070a8907d0ea7545a7fc75fdc';
+    this._provider = 'owm';
     this._feelsLike = true;
     this._weather = undefined;
     this._maximumAge = 0;
@@ -164,9 +164,7 @@ function prv_queryOWMWeather(apiKey, latitude, longitude, unit, success, error) 
       }
       let weather = {
         //temperatureK : data.main.temp.toFixed(1),
-        temperature : data.main.temp,
-        temperatureC : data.main.temp - 273.15,
-        temperatureF : (data.main.temp - 273.15)*9/5 + 32,
+        temperature : Math.round(data.main.temp),
         location : data.name,
         description : data.weather[0].description,
         isDay : (data.dt > data.sys.sunrise && data.dt < data.sys.sunset),

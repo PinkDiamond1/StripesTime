@@ -27,8 +27,8 @@ if (device.screen.width == 300 && device.screen.height == 300)
 import Weather from '../common/weather/device';
 
 let weather = new Weather();
-weather.setProvider("yahoo"); 
-weather.setApiKey("");
+weather.setProvider("owm"); 
+weather.setApiKey("30e538c070a8907d0ea7545a7fc75fdc");
 weather.setMaximumAge(10 * 60 * 1000); 
 weather.setFeelsLike(false);
 weather.setUnit(units.temperature.toLowerCase());
@@ -36,6 +36,7 @@ weather.setUnit(units.temperature.toLowerCase());
 import * as util from "./util";
 
 let hrm = new HeartRateSensor();
+hrm.start();
 
 console.log("App Started");
 
@@ -96,6 +97,16 @@ messaging.peerSocket.onmessage = evt => {
     settings.bgColor = JSON.parse(evt.data.newValue);
     console.log(`Setting background color: ${settings.bgColor}`);
     setBgColor();
+  }
+  if (evt.data.key === "bgImage" && evt.data.newValue) {
+    settings.backgroundImage = JSON.parse(evt.data.newValue).values[0].name;
+    console.log(`Background Image: ${settings.backgroundImage}`);
+    setBackgroundImage();
+  }
+  if (evt.data.key === "stripesImage" && evt.data.newValue) {
+    settings.stripesImage = JSON.parse(evt.data.newValue).values[0].name;
+    console.log(`Stripes Image: ${settings.stripesImage}`);
+    setStripesColor();
   }
   if (evt.data.key === "stripesToggle" && evt.data.newValue) {
     settings.stripes = JSON.parse(evt.data.newValue);
@@ -213,18 +224,41 @@ function setBgColor(){
   background.style.fill = settings.bgColor;
 }
 
+function setBackgroundImage(){
+  let backgroundImage = document.getElementById("backgroundImage");
+  if (settings.backgroundImage == "Union Jack"){
+    backgroundImage.href = "Images/unionJack-" + deviceType + ".png";
+  } else if (settings.backgroundImage == "Monochrome Union Jack"){
+    backgroundImage.href = "Images/unionJack-monochrome-" + deviceType + ".png";
+  } else {
+    backgroundImage.href = "";
+  }
+}
+
 function setStripesColor(){
   let mainStripeL = document.getElementById("mainStripeL");
   let mainStripeR = document.getElementById("mainStripeR");
+  let stripesImageLeft = document.getElementById("stripeImageL");
+  let stripesImageRight = document.getElementById("stripeImageR");
   
-  if (settings.stripes){
+  if (settings.stripesImage == "Union Jack" && settings.stripes){
+    stripesImageLeft.href = "Images/unionJackStripe-" + deviceType + ".png";
+    stripesImageRight.href = "Images/unionJackStripe-" + deviceType + ".png";
+  } else if (settings.stripesImage == "Monochrome Union Jack" && settings.stripes){
+    stripesImageLeft.href = "Images/unionJackStripe-monochrome-" + deviceType + ".png";
+    stripesImageRight.href = "Images/unionJackStripe-monochrome-" + deviceType + ".png";
+  } else if (settings.stripes){
     mainStripeR.style.display = "inline";
     mainStripeR.style.fill = settings.stripesColor;
     mainStripeL.style.display = "inline";
     mainStripeL.style.fill = settings.stripesColor;
+    stripesImageLeft.href = "";
+    stripesImageRight.href = "";
   } else {
     mainStripeR.style.display = "none";
     mainStripeL.style.display = "none";
+    stripesImageLeft.href = "";
+    stripesImageRight.href = "";
   }
 }
 
@@ -412,6 +446,7 @@ function loadSettings() {
       stripesColor : "silver",
       pinStripesColor : "black",
       pinStripesSpacing : 0,
+      unionJack : false,
       stripes : true,
       pinStripes: true,
       clockColor : "black",
@@ -450,6 +485,34 @@ function saveWeather() {
 
   fs.writeFileSync(WEATHER_FILE, weatherData, SETTINGS_TYPE);
 }
+
+hrm.onreading = function() {
+  let hrNeedle = document.getElementById("hrNeedle");
+  let hrLabel = document.getElementById("hrLabel");
+  
+  let heartRate = hrm.heartRate ? hrm.heartRate : 0
+  console.log("Got Heart Rate " + hrm.heartRate + ", " + heartRate)
+
+  if (heartRate == 0) {
+    hrLabel.text = `--`;
+    hrNeedle.groupTransform.rotate.angle = -110;
+
+  } else {
+    //console.log(user.restingHeartRate + ", " + user.age)
+    let min = parseInt(user.restingHeartRate);
+    let max = 220 - parseInt(user.age);
+    let degPerBpm = 192.5/(max-min);
+    //console.log(degPerBpm);
+
+    let angle = ((heartRate - user.restingHeartRate) * degPerBpm)-82.5;
+    console.log(heartRate - user.restingHeartRate + ", " + degPerBpm+ ", " + angle)
+    //let angle = ((250 - user.restingHeartRate) * degPerBpm) - 82.5;
+    //console.log(angle);
+    hrNeedle.groupTransform.rotate.angle = angle ;
+    hrLabel.text = `${heartRate}`;
+  }
+}
+
 function updateClock() {
   let clockLabel = document.getElementById("clockLabel");
   
@@ -478,33 +541,13 @@ function updateClock() {
 
 function updateClockData() {
   if (display.on){
-    let hrNeedle = document.getElementById("hrNeedle");
     let flNeedle = document.getElementById("flNeedle");
-   
-    let hrLabel = document.getElementById("hrLabel");
     let statsLabel = document.getElementById("statsLabel");
 
     //console.log("Data:");
     //console.log(data.heart.theHeartRate);
     //console.log(data.step.steps.toLocaleString());
-    
-    let heartRate = hrm.heartRate ? hrm.heartRate : 0
-    if (heartRate == 0) {
-      hrLabel.text = `--`;
-      hrNeedle.groupTransform.rotate.angle = -110;
-        
-    } else {
-      //console.log(user.restingHeartRate + ", " + user.age)
-      let min = parseInt(user.restingHeartRate);
-      let max = 220 - parseInt(user.age);
-      let degPerBpm = 192.5/(max-min);
-      //console.log(degPerBpm);
-      let angle = ((heartRate - user.restingHeartRate) * degPerBpm) - 82.5;
-      //let angle = ((250 - user.restingHeartRate) * degPerBpm) - 82.5;
-      //console.log(angle);
-      hrNeedle.groupTransform.rotate.angle = angle ;
-      hrLabel.text = `${heartRate}`;
-    }
+   
     let degPerB = 135/100
     let fangle = 135-battery.chargeLevel*degPerB-10
     flNeedle.groupTransform.rotate.angle = fangle ;
@@ -537,11 +580,12 @@ function updateClockData() {
 
 clickbackground.onclick = function(evt) {
   console.log("Click " +  stat);
-  if (stat < stats.length-1)
+  if (stat < stats().length-1) {
     stat++;
-  else
+  } else {
     stat = 0;
-  console.log(stats[stat]);
+  }
+  console.log(stats().stat);
 }
 
 weatherInterval = setInterval(fetchWeather, updateInterval*60*1000);
@@ -552,4 +596,4 @@ if (!openedWeatherRequest){
       openedWeatherRequest = true;
       fetchWeather();
     }
-hrm.start();
+

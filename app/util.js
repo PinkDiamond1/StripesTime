@@ -60,7 +60,7 @@ export function getWeatherIcon(data){
       return "../resources/icons/weather/whiteSnow.png"
       break;
     case 8: //Mist
-      return "../resources/icons/weather/whiteHaze .png"
+      return "../resources/icons/weather/whiteHaze.png"
       break;
     default: //Other
       if (data.isDay)
